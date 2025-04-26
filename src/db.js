@@ -1,7 +1,7 @@
-import imageCompression from 'browser-image-compression';
-import { storage, db } from './firebase';
+import { storage, db } from './firebase'; // <--- watch the path
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc } from "firebase/firestore";
+import imageCompression from 'browser-image-compression';
 
 export async function handlePhotoUpload(file, plantName) {
   try {
