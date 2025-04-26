@@ -1,1 +1,13 @@
-.vercel
+# .gitignore
+
+# Ignore dependencies
+node_modules/
+
+# Ignore build output
+dist/
+
+# Ignore environment secrets
+.env
+
+# Ignore Vercel settings (they can regenerate)
+vercel/
