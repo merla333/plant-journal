@@ -1,7 +1,7 @@
 import { Routes, Route, Link } from 'react-router-dom';
-import UploadPage from './UploadPage.jsx';
-import LibraryPage from './LibraryPage.jsx'; // ✅ good import
-import AssociatePage from './AssociatePage.jsx'; // ✅ when you create it
+import UploadPage from './UploadPage'
+import LibraryPage from './LibraryPage'
+import AssociatePage from './AssociatePage'
 
 function App() {
   return (

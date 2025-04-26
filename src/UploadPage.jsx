@@ -1,30 +1,35 @@
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { collection, addDoc } from "firebase/firestore";
-import imageCompression from 'browser-image-compression';
-import { storage, db } from './firebase';
+import { useState } from 'react';
+import { handlePhotoUpload } from './db'; // ← correct
 
+function UploadPage() {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [plantName, setPlantName] = useState('');
 
-async function handlePhotoUpload(file, plantName) {
-  try {
-    const compressedFile = await imageCompression(file, {
-      maxSizeMB: 0.2,
-      maxWidthOrHeight: 800,
-      useWebWorker: true,
-    });
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
 
-    const storageRef = ref(storage, `plants/${compressedFile.name}`);
-    await uploadBytes(storageRef, compressedFile);
+  const handleUpload = async () => {
+    if (selectedFile) {
+      await handlePhotoUpload(selectedFile, plantName);
+      setSelectedFile(null);
+      setPlantName('');
+    }
+  };
 
-    const downloadURL = await getDownloadURL(storageRef);
-
-    await addDoc(collection(db, "plants"), {
-      name: plantName,
-      photoURL: downloadURL,
-      timestamp: new Date(),
-    });
-
-    console.log("Upload successful!");
-  } catch (error) {
-    console.error("Upload failed", error);
-  }
+  return (
+    <div>
+      <h2>Upload Plant</h2>
+      <input
+        type="text"
+        placeholder="Plant Name"
+        value={plantName}
+        onChange={(e) => setPlantName(e.target.value)}
+      />
+      <input type="file" accept="image/*" onChange={handleFileChange} />
+      <button onClick={handleUpload}>Upload</button>
+    </div>
+  );
 }
+
+export default UploadPage; // <--- THIS is what you're missing
